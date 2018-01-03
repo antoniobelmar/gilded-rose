@@ -68,5 +68,15 @@ describe GildedRose do
       GildedRose.new(items).update_quality()
       expect(items[0].sell_in).to eq(1)
     end
+    it "Ensures conjured items quality degrades twice as fast as normal items before sell-in date" do
+      items = items = [Item.new("Conjured", 1, 10)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq(8)
+    end
+    it "Ensures conjured items quality degrades twice as fast as normal items after sell-in date" do
+      items = items = [Item.new("Conjured", 0, 10)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq(6)
+    end
   end
 end
