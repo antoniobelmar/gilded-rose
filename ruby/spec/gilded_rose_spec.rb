@@ -28,7 +28,7 @@ describe GildedRose do
       GildedRose.new(items).update_quality()
       expect(items[0].quality).to eq(1)
     end
-    it "ensures quality of an items is never above 50" do
+    it "ensures quality of an item is never above 50" do
       items = [Item.new("Aged Brie", 1, 50)]
       GildedRose.new(items).update_quality()
       expect(items[0].quality).to eq(50)
@@ -74,7 +74,7 @@ describe GildedRose do
       expect(items[0].quality).to eq(8)
     end
     it "Ensures conjured items quality degrades twice as fast as normal items after sell-in date" do
-      items = items = [Item.new("Conjured", 0, 10)]
+      items = items = [Item.new("Conjured", -1, 10)]
       GildedRose.new(items).update_quality()
       expect(items[0].quality).to eq(6)
     end

@@ -1,52 +1,30 @@
 require './lib/item'
+require './lib/aged_brie'
+require './lib/backstage_passes'
+require './lib/general_item'
+require './lib/sulfuras'
+require './lib/conjured'
 
 class GildedRose
-  MIN_QUALITY = 0
-  MAX_QUALITY = 50
+  CLASS_CHECKER = {"Aged Brie" => Aged_Brie, "Sulfuras, Hand of Ragnaros"=> Sulfuras, "Backstage passes to a TAFKAL80ETC concert"=> Backstage_Passes , "Conjured" => Conjured}
+  CLASS_CHECKER.default = General_Item
 
   def initialize(items)
     @items = items
   end
 
-  def update_quality()
+  def update_quality
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > MIN_QUALITY && item.name != "Sulfuras, Hand of Ragnaros"
-          item.quality = item.quality - 1
-        end
-      else
-        if item.quality < MAX_QUALITY
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11 && item.quality < MAX_QUALITY
-              item.quality = item.quality + 1
-            end
-            if item.sell_in < 6 && item.quality < MAX_QUALITY
-              item.quality = item.quality + 1
-            end
-          end
-        end
-      end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > MIN_QUALITY
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < MAX_QUALITY
-            item.quality = item.quality + 1
-          end
-        end
-      end
+      item_type = check_class(item)
+      item_type.update_quality
+      item_type.update_sell_in
     end
   end
+
+  private
+
+  def check_class(item)
+    return CLASS_CHECKER[item.name].new(item)
+  end
+
 end
