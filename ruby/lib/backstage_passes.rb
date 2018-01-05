@@ -1,9 +1,8 @@
-class Backstage_Passes
+require 'general_item'
+
+class Backstage_Passes < General_Item
   MAX_QUALITY = 50
-  MIN_QUALITY = 0
   QUALITY_INCREMENT = 1
-  SELL_IN_INCREMENT = -1
-  EXPIRES_BY = 0
   SIX_DAYS_TO_EXPIRE = 6
   ELEVEN_DAYS_TO_EXPIRE = 11
 
@@ -24,10 +23,6 @@ class Backstage_Passes
     if @item.sell_in <= EXPIRES_BY
       @item.quality = MIN_QUALITY
     end
-  end
-
-  def update_sell_in
-    @item.sell_in += SELL_IN_INCREMENT
   end
 
 end
